@@ -2,8 +2,17 @@
     <div class="flex">
          <div class="w-3/4 p-4 mr-4 bg-white border border-gray-200">
              <h3 class="text-gray-700 mb-4 text-lg">{{ chat.title ?? 'Your chat' }}</h3>
-            <div mb-4>
-
+            <div class="mb-4" v-if="messages">
+                <div v-for="message in messages" :class="message.is_owner ? 'text-right' : ''">
+                    <div :class="['p-2 mb-3 border inline-block',
+                        message.is_owner ? 'bg-green-100 border-green-200' : ' bg-sky-100 border-sky-200'
+                    ]">
+                        <p class="text-xs font-bold">{{ message.user_name }}</p>
+                        <p class="mb-2">{{ message.body }}</p>
+                        <p class="text-xs italic">{{ message.time }}</p>
+                    </div>
+                    
+                </div>
             </div>
             <div>
                 <h3 class="text-gray-700 mb-4 text-lg">Send message</h3>
@@ -29,14 +38,14 @@
 
 <script>
 import Main from '@/Layouts/Main.vue';
-import axios from 'axios';
 
 export default {
     name: 'Show',
 
     props: [
         'chat',
-        'users'
+        'users',
+        'messages'
     ],
 
     data(){
@@ -65,7 +74,7 @@ export default {
                 user_ids: this.userIds
             })
             .then( res => {
-                console.log(res); 
+                this.messages.push(res.data);
             })
         }
     },
