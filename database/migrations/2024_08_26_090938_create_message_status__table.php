@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('message_status_', function (Blueprint $table) {
+        Schema::create('message_status', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('chat_id')->index()->constrained('chats');
