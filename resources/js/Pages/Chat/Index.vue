@@ -1,8 +1,16 @@
 <template >
     <div class="flex">
          <div class="w-1/2 p-4 mr-4 bg-white border border-gray-200">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis excepturi inventore reiciendis doloribus odio nulla alias. Similique error quisquam voluptate deserunt repudiandae autem ducimus optio sapiente maxime! Maiores, voluptates ex.
-         </div>
+            <h3 class="text-gray-700 mb-4 text-lg">Chats</h3>
+            <div v-if="chats">
+                <div v-for="chat in chats" class="flex items-center pb-4 mb-4 border-b border-gray-600">
+                    <Link :href="route('chats.show', chat.id)"  class="flex">  
+                        <p class="mr-2">{{  chat.id }}</p>
+                        <p>{{ chat.title ?? 'Your chat' }}</p>
+                    </Link>                      
+                </div>
+            </div> 
+        </div>
          <div class="w-1/2 p-4 bg-white border border-gray-200">
             <h3 class="text-gray-700 mb-4 text-lg">Users</h3>
             <div v-if="users">
@@ -17,6 +25,7 @@
 </template>
 
 <script>
+import { Link } from '@inertiajs/vue3';
 import Main from '@/Layouts/Main.vue';
 
 export default {
@@ -24,9 +33,14 @@ export default {
 
     props: [
         'users',
+        'chats'
     ],
 
+    components: {
+        Link
+    },
     layout: Main,
+
 
     methods: {
         store(id) {
