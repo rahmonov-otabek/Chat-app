@@ -48,11 +48,19 @@ export default {
         'messages'
     ],
 
+    created() {
+        window.Echo.channel(`store-message.${this.chat.id}`)
+            .listen('.store-message', res => {  
+                this.messages.push(res.message)
+            });
+    },
+
     data(){
         return {
             body: ''
         }
     },
+
 
     layout: Main,
 
