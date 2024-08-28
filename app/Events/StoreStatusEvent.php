@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\Message\MessageResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -17,14 +18,16 @@ class StoreStatusEvent
     private $count;
     private $chatId;
     private $userId;
+    private $message;
     /**
      * Create a new event instance.
      */
-    public function __construct($count, $chatId, $userId)
+    public function __construct($count, $chatId, $userId, $message)
     {
         $this->count = $count;
         $this->chatId = $chatId;
         $this->chatId = $userId;
+        $this->chatId = $message;
     }
 
     /**
@@ -57,6 +60,7 @@ class StoreStatusEvent
         return [
             'chat_id' => $this->chatId,
             'count' => $this->count,
+            'message' => MessageResource::make($this->message)->resolve()
         ];
     }
 }

@@ -5,16 +5,28 @@
             <div v-if="chats">
                 <div v-for="chat in chats" class="pb-4 mb-4 border-b border-gray-600">
                     <Link :href="route('chats.show', chat.id)">  
-                        <div class="flex justify-between">
-                            <div class="flex">
-                                <p class="mr-2">{{  chat.id }}</p>
-                                <p>{{ chat.title ?? 'Your chat' }}</p>
+                        <div>
+                            <div>
+                                <div class="flex">
+                                    <p class="mr-2">{{  chat.id }}</p>
+                                    <p>{{ chat.title ?? 'Your chat' }}</p>
+                                </div>
+                                <div :class="['p-4 flex justify-between items-center',
+                                    chat.unreadable_count !== 0 ? 'bg-sky-50' : ''
+                                ]">
+                                    <div class="text-sm">
+                                        <p class="text-gray-600">{{ chat.last_message.user_name }}</p>
+                                        <p class="mb-2 text-gray-500">{{ chat.last_message.body }}</p>
+                                        <p class="italic text-gray-400">{{ chat.last_message.time }}</p>
+                                    </div>
+                                    <div v-if="chat.unreadable_count !== 0">
+                                        <p class="text-xs rounded-full text-white bg-sky-500 px-2 py-1">{{  
+                                            chat.unreadable_count 
+                                            }}</p>
+                                    </div> 
+                                </div>
                             </div>
-                            <div v-if="chat.unreadable_count !== 0">
-                                <p class="text-xs rounded-full text-white bg-sky-500 px-2 py-1">{{  
-                                    chat.unreadable_count 
-                                    }}</p>
-                            </div>
+                            
                         </div>
                     </Link>                      
                 </div>
@@ -71,9 +83,9 @@ export default {
                 this.chats.filter(chat => {
                     if(chat.id === res.chat_id){
                         chat.unreadable_count = res.count
+                        chat.last_message = res.message
                     }
                 })
-                console.log(res.count)
             })
     },
 
