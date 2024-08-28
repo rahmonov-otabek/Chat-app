@@ -3,10 +3,19 @@
          <div class="w-1/2 p-4 mr-4 bg-white border border-gray-200">
             <h3 class="text-gray-700 mb-4 text-lg">Chats</h3>
             <div v-if="chats">
-                <div v-for="chat in chats" class="flex items-center pb-4 mb-4 border-b border-gray-600">
-                    <Link :href="route('chats.show', chat.id)"  class="flex">  
-                        <p class="mr-2">{{  chat.id }}</p>
-                        <p>{{ chat.title ?? 'Your chat' }}</p>
+                <div v-for="chat in chats" class="pb-4 mb-4 border-b border-gray-600">
+                    <Link :href="route('chats.show', chat.id)">  
+                        <div class="flex justify-between">
+                            <div class="flex">
+                                <p class="mr-2">{{  chat.id }}</p>
+                                <p>{{ chat.title ?? 'Your chat' }}</p>
+                            </div>
+                            <div v-if="chat.unreadable_count !== 0">
+                                <p class="text-xs rounded-full text-white bg-sky-500 px-2 py-1">{{  
+                                    chat.unreadable_count 
+                                    }}</p>
+                            </div>
+                        </div>
                     </Link>                      
                 </div>
             </div> 
