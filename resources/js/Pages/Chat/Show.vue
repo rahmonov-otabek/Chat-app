@@ -82,7 +82,8 @@ export default {
                 user_ids: this.userIds
             })
             .then( res => {
-                this.messages.push(res.data);
+                this.messages.push(res.data)
+                this.body = ''
             })
         }
     },
