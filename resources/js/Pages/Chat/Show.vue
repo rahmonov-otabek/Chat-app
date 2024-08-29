@@ -3,7 +3,10 @@
          <div class="w-3/4 p-4 mr-4 bg-white border border-gray-200">
              <h3 class="text-gray-700 mb-4 text-lg">{{ chat.title ?? 'Your chat' }}</h3>
             <div class="mb-4" v-if="messages">
-                <div v-for="message in messages" :class="message.is_owner ? 'text-right' : ''">
+                <div v-if="!isLastPage" class="text-center mb-2">
+                    <a @click.prevent="getMessages" class="inline-block bg-sky-600 text-white text-xs px-3 py-2 rounded-lg" href="#">Load more</a>
+                </div>
+                <div v-for="message in messages.slice().reverse()" :class="message.is_owner ? 'text-right' : ''">
                     <div :class="['p-2 mb-3 border inline-block',
                         message.is_owner ? 'bg-green-100 border-green-200' : ' bg-sky-100 border-sky-200'
                     ]">
@@ -37,7 +40,7 @@
 </template>
 
 <script>
-import Main from '@/Layouts/Main.vue';
+import Main from '@/Layouts/Main.vue';  
 
 export default {
     name: 'Show',
@@ -45,28 +48,29 @@ export default {
     props: [
         'chat',
         'users',
-        'messages'
+        'messages',
+        'isLastPage'
     ],
 
     created() {
         window.Echo.channel(`store-message.${this.chat.id}`)
             .listen('.store-message', res => {   
-                this.messages.push(res.message)
+                this.messages.unshift(res.message)
                 if (this.$page.url === `/chats/${this.chat.id}`
                 ) {
                     axios.patch('/message_statuses', {
                             message_id: res.message.id,
                             user_id: this.$page.props.auth.user.id
                             
-                        }) 
-                        console.log(res.message.id)
+                        })  
                 }
             });
     },
 
     data(){
         return {
-            body: ''
+            body: '',
+            page: 1
         }
     },
 
@@ -91,10 +95,18 @@ export default {
                 user_ids: this.userIds
             })
             .then( res => {
-                this.messages.push(res.data)
+                this.messages.unshift(res.data)
                 this.body = ''
             })
-        }
+        },
+
+            getMessages() {
+                axios.get(`/chats/${this.chat.id}?page=${++this.page}`)
+                .then( res => {
+                    this.messages.push(...res.data.messages)
+                    this.$page.props.isLastPage = res.data.is_last_page
+                })
+            }
     },
 
     
