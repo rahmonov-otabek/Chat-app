@@ -13,7 +13,7 @@ class MessageStatusController extends Controller
     {
         $data = $request->validated();
 
-        $messageStatus = MessageStatus::where('user_id', $data['user_id'])
+        MessageStatus::where('user_id', $data['user_id'])
             ->where('message_id', $data['message_id'])
             ->update(['is_read' => true]);
 

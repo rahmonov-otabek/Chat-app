@@ -8,10 +8,11 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class StoreStatusEvent
+class StoreMessageStatusEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -26,8 +27,8 @@ class StoreStatusEvent
     {
         $this->count = $count;
         $this->chatId = $chatId;
-        $this->chatId = $userId;
-        $this->chatId = $message;
+        $this->userId = $userId;
+        $this->message = $message;
     }
 
     /**
@@ -59,8 +60,8 @@ class StoreStatusEvent
     {
         return [
             'chat_id' => $this->chatId,
-            'count' => $this->count,
-            'message' => MessageResource::make($this->message)->resolve()
+            'count' => $this->count, 
+            'message' => MessageResource::make($this->message)
         ];
     }
 }

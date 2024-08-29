@@ -80,6 +80,7 @@ export default {
     created() {
         window.Echo.channel(`users.${this.$page.props.auth.user.id}`)
             .listen('.store-message-status',res => {  
+                console.log(res)
                 this.chats.filter(chat => {
                     if(chat.id === res.chat_id){
                         chat.unreadable_count = res.count

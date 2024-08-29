@@ -15,6 +15,7 @@ class ChatResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // dd(MessageResource::make($this->lastMessage)->withoutWrapping(), new MessageResource($this->lastMessage), MessageResource::make($this->lastMessage)->resolve(), $this->lastMessage);
         return [
             'id' => $this->id,
             'title' => $this->title,
