@@ -1,8 +1,11 @@
 <template>
     <div class="p-4 w-3/4 mx-auto">
-        <div>
+        <div class="flex justify-between">
             <div class="mb-4">
                 <Link :href="route('chats.index')">Chats</Link>
+            </div>
+            <div class="mb-4">
+                <Link :href="route('dashboard')">Dashboard</Link>
             </div>
         </div>
         <slot />

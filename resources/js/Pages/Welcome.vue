@@ -51,8 +51,7 @@ function handleImageError() {
                                 fill="currentColor"
                             />
                         </svg>
-                    </div>
-                    <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end">
+                        <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-center">
                         <Link
                             v-if="$page.props.auth.user"
                             :href="route('dashboard')"
@@ -78,9 +77,11 @@ function handleImageError() {
                             </Link>
                         </template>
                     </nav>
+                    </div>
+                    
                 </header>
 
-                <main class="mt-6">
+                <!-- <main class="mt-6">
                     <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
                         <a
                             href="https://laravel.com/docs"
@@ -337,12 +338,14 @@ function handleImageError() {
                             </div>
                         </div>
                     </div>
-                </main>
+                </main> -->
 
-                <footer class="py-16 text-center text-sm text-black dark:text-white/70">
+                <!-- <footer class="py-16 text-center text-sm text-black dark:text-white/70">
                     Laravel v{{ laravelVersion }} (PHP v{{ phpVersion }})
-                </footer>
+                </footer> -->
             </div>
         </div>
     </div>
 </template>
+
+
