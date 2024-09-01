@@ -24,7 +24,7 @@ class MessageController extends Controller
 
         dispatch(new StoreMessageStatusJob($data, $message));
         // StoreMessageStatusJob::dispatch($data, $message);
-
+ 
         broadcast(new StoreMessageEvent($message))->toOthers();
 
 

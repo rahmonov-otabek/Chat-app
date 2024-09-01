@@ -55,14 +55,16 @@ export default {
     created() {
         window.Echo.channel(`store-message.${this.chat.id}`)
             .listen('.store-message', res => {   
-                this.messages.unshift(res.message)
-                if (this.$page.url === `/chats/${this.chat.id}`
-                ) {
-                    axios.patch('/message_statuses', {
-                            message_id: res.message.id,
-                            user_id: this.$page.props.auth.user.id
-                            
-                        })  
+                if (res.socket_id !== window.Echo.socketId()) {
+                    this.messages.unshift(res.message)
+                    if (this.$page.url === `/chats/${this.chat.id}`
+                    ) {
+                        axios.patch('/message_statuses', {
+                                message_id: res.message.id,
+                                user_id: this.$page.props.auth.user.id
+                                
+                            })  
+                    } 
                 }
             });
     },
